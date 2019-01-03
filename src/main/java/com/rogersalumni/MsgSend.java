@@ -38,14 +38,13 @@ import javax.mail.internet.*;
 
 
 public class MsgSend {
-    static String userName = "mauget@gmx.com";
 
     static String msgText1 = "This is a message body.\nHere's line two.";
     static String msgText2 = "This is the text in the message attachment.";
 
     public static void main(String[] args) {
-        if (args.length != 5) {
-            System.out.println("usage: java MsgSend <to> <from> <smtp> true|false");
+        if (args.length != 6) {
+            System.out.println("usage: java MsgSend <to> <from> <smtp> true|false <user> <password>");
             return;
         }
 
@@ -53,11 +52,14 @@ public class MsgSend {
         String from = args[1];
         String host = args[2];
         boolean debug = Boolean.valueOf(args[3]).booleanValue();
-        String password = args[4];
+        String userName = args[4];
+        String password = args[5];
 
         // create some properties and get the default Session
         Properties props = new Properties();
         props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", "25");
+        props.put("mail.smtp.auth", true);
 
         Session session = Session.getInstance(props, new Authenticator() {
             @Override
