@@ -68,10 +68,6 @@ public class SendSes {
 
         try {
             System.out.println("Sending ...");
-//            transport.connect(HOST,
-//                    properties.getProperty("mail.smtp.user"),
-//                    properties.getProperty("mail.smtp.password"))
-//            ;
             Transport.send(message);
             System.out.println("Email sent");
         }
