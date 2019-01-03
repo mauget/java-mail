@@ -37,14 +37,14 @@ import javax.mail.*;
 import javax.mail.internet.*;
 
 
-public class MsgSend {
+public class SendGmail {
 
     static String msgText1 = "This is a message body.\nHere's line two.";
     static String msgText2 = "This is the text in the message attachment.";
 
     public static void main(String[] args) {
         if (args.length != 6) {
-            System.out.println("usage: java MsgSend <to> <from> <smtp> true|false <user> <password>");
+            System.out.println("usage: java SendGmail <to> <from> <smtp> true|false <user> <password>");
             return;
         }
 
@@ -57,14 +57,19 @@ public class MsgSend {
 
         // create some properties and get the default Session
         Properties props = new Properties();
-        props.put("mail.smtp.host", host);
-        props.put("mail.smtp.port", "25");
-        props.put("mail.smtp.auth", true);
+        props.setProperty("mail.smtp.host", host);
+        props.setProperty("mail.smtp.port", "25");
+        props.setProperty("mail.smtp.auth", "true");
+
+        props.setProperty("mail.smtp.user", userName);
+        props.setProperty("mail.smtp.password", password);
 
         Session session = Session.getInstance(props, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(userName, password);
+                return new PasswordAuthentication(
+                        props.getProperty("mail.smtp.user"),
+                        props.getProperty("mail.smtp.password"));
             }
         });
 
